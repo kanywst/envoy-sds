@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: envoy-sds
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: envoy
+  template:
+    metadata:
+      labels:
+        app: envoy
+    spec:
+      containers:
+      - name: envoy
+        image: envoyproxy/envoy:v1.30-latest
+        args: ["-c", "/etc/envoy/envoy.yaml"]
+        ports:
+        - containerPort: 10000
+        volumeMounts:
+        - name: envoy-config
+          mountPath: /etc/envoy
+        - name: sds-config
+          mountPath: /etc/sds
+      volumes:
+      - name: envoy-config
+        configMap:
+          name: envoy-static-config
+      - name: sds-config
+        configMap:
+          name: sds-config

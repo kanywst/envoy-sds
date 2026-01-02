@@ -1,0 +1,6 @@
+resources:
+  - "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.Secret
+    name: "server_cert"
+    tls_certificate:
+      certificate_chain: { filename: "/etc/sds/cert.pem" }
+      private_key: { filename: "/etc/sds/key.pem" }
